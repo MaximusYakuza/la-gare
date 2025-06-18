@@ -28,13 +28,17 @@
 
 
         <Button
+            android:id="@+id/logout_button"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cerrar Sesion"
+            android:text="Cerrar Sesión"
             android:layout_gravity="bottom"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:background="@color/purple_500"
+            android:textColor="@color/white" />
+
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

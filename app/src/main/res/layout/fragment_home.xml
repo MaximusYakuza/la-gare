@@ -41,7 +41,7 @@
         android:id="@+id/textViewHolaMauro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hola Ing.Mauro"
+        android:text="Bienvenido"
         android:fontFamily="@font/amarante"
         android:layout_margin="6dp"
         android:textColor="@color/white"

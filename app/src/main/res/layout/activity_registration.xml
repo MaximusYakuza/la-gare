@@ -46,7 +46,7 @@
         tools:layout_editor_absoluteY="104dp" />
 
     <Button
-        android:onClick="mainActivity"
+        android:onClick="register"
         android:textColor="@color/white"
         android:id="@+id/button"
         android:layout_width="0dp"
@@ -77,6 +77,7 @@
         tools:layout_editor_absoluteY="136dp" />
 
     <EditText
+        android:id="@+id/editText_paternal_surname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -91,6 +92,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_maternal_surname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -105,6 +107,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
@@ -119,6 +122,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="136dp"
@@ -133,6 +137,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="180dp"
@@ -147,6 +152,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="224dp"
@@ -161,6 +167,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_street_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="268dp"
@@ -175,6 +182,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_postal_code"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="312dp"
@@ -189,6 +197,7 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
+        android:id="@+id/editText_references"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="356dp"
@@ -218,7 +227,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/sign_in"
         android:textAlignment="center"
         android:textColor="@color/purple_500"

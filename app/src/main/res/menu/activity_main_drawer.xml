@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
@@ -20,5 +19,11 @@
             android:id="@+id/nav_my_cart"
             android:icon="@drawable/baseline_add_shopping_cart_24"
             android:title="@string/my_cart" />
+
+        <!-- ✅ Nuevo ítem -->
+        <item
+            android:id="@+id/nav_order_history"
+            android:icon="@drawable/baseline_history_edu_24"
+            android:title="Historial de pedidos" />
     </group>
 </menu>

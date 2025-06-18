@@ -2,13 +2,17 @@ package com.example.lagare.models;
 
 public class DetailedDailyModel {
 
-    int image;
-    String name;
-    String description;
-    String rating;
-    String price;
-    String timing;
+    private int image;  // Cambiado de String a int ✅
+    private String name;
+    private String description;
+    private String rating;
+    private String price;
+    private String timing;
 
+    // 🔥 Constructor vacío para Firebase
+    public DetailedDailyModel() {}
+
+    // Constructor con todos los campos
     public DetailedDailyModel(int image, String name, String description, String rating, String price, String timing) {
         this.image = image;
         this.name = name;
@@ -18,6 +22,7 @@ public class DetailedDailyModel {
         this.timing = timing;
     }
 
+    // Getters y Setters
     public int getImage() {
         return image;
     }

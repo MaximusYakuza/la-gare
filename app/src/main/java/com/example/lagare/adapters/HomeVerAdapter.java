@@ -11,14 +11,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.lagare.models.HomeVerModel;
 import com.example.lagare.R;
+import com.example.lagare.models.HomeVerModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
-public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHolder>{
+public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHolder> {
 
     private BottomSheetDialog bottomSheetDialog;
     Context context;
@@ -32,55 +35,59 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
     @NonNull
     @Override
     public HomeVerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.home_vertical_item,parent,false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.home_vertical_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull HomeVerAdapter.ViewHolder holder, int position) {
+        HomeVerModel item = list.get(position);
 
-        final String mName = list.get(position).getName();
-        final String mTiming = list.get(position).getTiming();
-        final String mRating = list.get(position).getRating();
-        final String mPrice = list.get(position).getPrice();
-        final int mImage = list.get(position).getImage();
+        holder.imageView.setImageResource(item.getImage());
+        holder.name.setText(item.getName());
+        holder.timing.setText(item.getTiming());
+        holder.rating.setText(item.getRating());
+        holder.price.setText(item.getPrice());
 
-        holder.imageView.setImageResource(list.get(position).getImage());
-        holder.name.setText(list.get(position).getName());
-        holder.timing.setText(list.get(position).getTiming());
-        holder.rating.setText(list.get(position).getRating());
-        holder.price.setText(list.get(position).getPrice());
+        holder.itemView.setOnClickListener(v -> {
+            bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetTheme);
+            View sheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout, null);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            ImageView bottomImg = sheetView.findViewById(R.id.bottom_img);
+            TextView bottomName = sheetView.findViewById(R.id.bottom_name);
+            TextView bottomPrice = sheetView.findViewById(R.id.bottom_price);
+            TextView bottomRating = sheetView.findViewById(R.id.bottom_rating);
 
-            @Override
-            public void onClick(View v) {
+            bottomName.setText(item.getName());
+            bottomPrice.setText(item.getPrice());
+            bottomRating.setText(item.getRating());
+            bottomImg.setImageResource(item.getImage());
 
-                bottomSheetDialog = new BottomSheetDialog(context,R.style.BottomSheetTheme);
+            // 🔥 Agregar al carrito
+            sheetView.findViewById(R.id.add_to_cart).setOnClickListener(view -> {
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("Cart").child(uid);
 
-                View sheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout,null);
-                sheetView.findViewById(R.id.add_to_cart).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context, "Agregado al Carrito", Toast.LENGTH_SHORT).show();
-                        bottomSheetDialog.dismiss();
-                    }
-                });
+                // ✅ Extraer solo el número del precio (por ejemplo, "35")
+                String rawPrice = item.getPrice().replaceAll("[^0-9.]", "");
 
-                ImageView bottomImg = sheetView.findViewById(R.id.bottom_img);
-                TextView bottomName = sheetView.findViewById(R.id.bottom_name);
-                TextView bottomPrice = sheetView.findViewById(R.id.bottom_price);
-                TextView bottomRating = sheetView.findViewById(R.id.bottom_rating);
+                HashMap<String, Object> product = new HashMap<>();
+                product.put("name", item.getName());
+                product.put("price", rawPrice); // Solo el número
+                product.put("rating", item.getRating());
+                product.put("timing", item.getTiming());
+                product.put("description", "Descripción no disponible");
+                product.put("image", String.valueOf(item.getImage())); // ID como String
+                product.put("timestamp", System.currentTimeMillis()); // 🔥 para historial
 
-                bottomName.setText(mName);
-                bottomPrice.setText(mPrice);
-                bottomRating.setText(mRating);
-                bottomImg.setImageResource(mImage);
+                cartRef.push().setValue(product)
+                        .addOnSuccessListener(unused -> Toast.makeText(context, "Agregado al carrito", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 
-                bottomSheetDialog.setContentView(sheetView);
-                bottomSheetDialog.show();
+                bottomSheetDialog.dismiss();
+            });
 
-
-            }
+            bottomSheetDialog.setContentView(sheetView);
+            bottomSheetDialog.show();
         });
     }
 
@@ -89,10 +96,10 @@ public class HomeVerAdapter extends RecyclerView.Adapter<HomeVerAdapter.ViewHold
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView name,timing,rating,price;
+        TextView name, timing, rating, price;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.ver_img);
